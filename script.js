@@ -32,7 +32,21 @@ renderizarProds();
 function agregarAlCarrito(productoComprado){
     carrito.push(productoComprado);
     console.table(carrito);
-    alert("Producto: "+productoComprado.nombre+"  al carrito!");
+    //alert("Producto: "+productoComprado.nombre+"  al carrito!");
+    //sweetalert
+    Swal.fire({
+        title: productoComprado.nombre,
+        text: 'Agregaste este producto al carrito.',
+        imageUrl: productoComprado.foto,
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: productoComprado.nombre,
+        backdrop: `
+    rgba(0,0,123,0.4)
+    `,
+        showConfirmButton: false,
+        timer: 1500
+      })
     document.getElementById("tablabody").innerHTML += `
         <tr>
             <td>${productoComprado.id}</td>
