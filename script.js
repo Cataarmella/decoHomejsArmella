@@ -1,6 +1,4 @@
 
-//MI PROYECTO
-
 //const carrito = [];
 
 localStorage.clear();
@@ -8,12 +6,7 @@ let totalCarrito;
 let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-if(carrito.length != 0){
-    console.log("Recuperando carro")
-    dibujarTabla();
-}
-
+let tablaBody = document.getElementById ("tablabody");
 
 
 //Renderizacion de Productos 
@@ -34,24 +27,7 @@ function renderizarProds(){
         `;
     }
 
-//Renderizar Carrito 
-function dibujarTabla(){
-    for(const producto of carrito){
-        document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${producto.id}</td>
-            <td>${producto.nombre}</td>
-            <td>${producto.precio}</td>                  
-        </tr>
-    `;
-    }
-
-    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
-    let infoTotal = document.getElementById("total");
-    
-    infoTotal.innerText="Total a pagar $: "+totalCarrito;
-}
-
+ 
 
     //EVENTOS
     productos.forEach(producto => {
@@ -63,11 +39,6 @@ function dibujarTabla(){
 }
 
 renderizarProds();
-
-
-
-
-
 
 
 //Agregar al carro
@@ -91,6 +62,7 @@ function agregarAlCarrito(productoComprado){
         showConfirmButton: false,
         timer: 1500
       })
+      
     document.getElementById("tablabody").innerHTML += `
         <tr>
             <td>${productoComprado.id}</td>
@@ -126,11 +98,7 @@ Toastify({
 
 
 
-    //Quiero medir intevalo
-    const cierreDeCompra=DateTime.now();
-    const Interval = luxon.Interval;
-    const tiempo = Interval.fromDateTimes(ahora,cierreDeCompra);
-    console.log("Tardaste "+tiempo.length('seconds')+" en comprar");
+    
     localStorage.removeItem("carrito");
     
 }
@@ -143,32 +111,39 @@ Toastify({
 
   
   
-  function actualizarCarrito(productoComprado){
-    carrito.push(productoComprado);
+  function actualizarCarrito(){
     console.table(carrito);
-
+        let aux = '';
+        carrito.forEach((producto) => {
+            aux += `
+                <div class="card col-xl-3 col md-6 col-sm-12">
+                    <div class="card-body">
+                         <h3 class="card-title"> ${producto.nombre} </h3>
+                         <p class="card-text"> ${producto.precio} </p>
+                         <button onClick = "eliminarDelCarrito(${producto.id})" class="btn btn-primary"> Eliminar del Carrito </button>
+                    </div>
+                </div>           
+            
+            ` ;
+        })
+        tablaBody.innerHTML = aux;
+        
+        totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+        let infoTotal = document.getElementById("total");
+        infoTotal.innerText="Total a pagar $: "+totalCarrito;
     
-    document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${productoComprado.id}</td>
-            <td>${productoComprado.nombre}</td>
-            <td>${productoComprado.precio}</td>
-            <td><button onClick = "eliminarDelCarrito(${productoComprado.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
-        </tr>
-    `;
-    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
-    let infoTotal = document.getElementById("total");
-    infoTotal.innerText="Total a pagar $: "+totalCarrito
+        localStorage.setItem("carrito", JSON.stringify(carrito));
 
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-  }
+        }
+    
+    
+  
 //Agrego una función que elimine el producto del carrito:
 
 const eliminarDelCarrito = (id) => {
-    const producto = carrito.find((productoComprado) => producto.id === id);
+    const producto = carrito.find((producto) => producto.id === id);
     carrito.splice(carrito.indexOf(producto), 1);
     actualizarCarrito();
   };
 
-  
+ 
