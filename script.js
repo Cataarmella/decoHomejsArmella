@@ -1,7 +1,7 @@
 
 //const carrito = [];
 
-localStorage.clear();
+//localStorage.clear();
 let totalCarrito;
 let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
@@ -9,7 +9,7 @@ let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let tablaBody = document.getElementById ("tablabody");
 
 
-//Renderizacion de Productos 
+//Renderizacion de Productos:
 
 function renderizarProds(){
     for(const producto of productos){
@@ -41,7 +41,7 @@ function renderizarProds(){
 renderizarProds();
 
 
-//Agregar al carro
+//Agregar al carro:
 
 function agregarAlCarrito(productoComprado){
     carrito.push(productoComprado);
@@ -85,6 +85,9 @@ botonFinalizar.onclick = () => {
     let infoTotal = document.getElementById("total");
     infoTotal.innerText="Total $: ";
 
+
+    //Toastify
+
 Toastify({
     text: "Pronto recibirás un mail de confirmacion de tu compra",
     duration: 3000,
@@ -104,13 +107,9 @@ Toastify({
 }
 
 
-
-
-//NUEVO
-
-
   
-  
+  //agrego una funcion para actualizar el carrito:
+
   function actualizarCarrito(){
     console.table(carrito);
         let aux = '';
