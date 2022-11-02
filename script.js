@@ -1,32 +1,22 @@
 
+//MI PROYECTO
+
 //const carrito = [];
-//let totalCarrito;
-//let contenedor = document.getElementById("misprods");
+
 localStorage.clear();
 let totalCarrito;
 let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
 if(carrito.length != 0){
     console.log("Recuperando carro")
     dibujarTabla();
 }
 
-function dibujarTabla(){
-    for(const producto of carrito){
-        document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${producto.id}</td>
-            <td>${producto.nombre}</td>
-            <td>${producto.precio}</td>
-        </tr>
-    `;
-    }
-    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
-    let infoTotal = document.getElementById("total");
-    infoTotal.innerText="Total a pagar $: "+totalCarrito;
-}
 
+
+//Renderizacion de Productos 
 
 function renderizarProds(){
     for(const producto of productos){
@@ -38,10 +28,30 @@ function renderizarProds(){
                     <p class="card-text">${producto.nombre}</p>
                     <p class="card-text">$ ${producto.precio}</p>
                     <button id="btn${producto.id}" class="btn btn-primary">Comprar</button>
+                    
                 </div>
             </div>
         `;
     }
+
+//Renderizar Carrito 
+function dibujarTabla(){
+    for(const producto of carrito){
+        document.getElementById("tablabody").innerHTML += `
+        <tr>
+            <td>${producto.id}</td>
+            <td>${producto.nombre}</td>
+            <td>${producto.precio}</td>                  
+        </tr>
+    `;
+    }
+
+    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+    let infoTotal = document.getElementById("total");
+    
+    infoTotal.innerText="Total a pagar $: "+totalCarrito;
+}
+
 
     //EVENTOS
     productos.forEach(producto => {
@@ -54,10 +64,19 @@ function renderizarProds(){
 
 renderizarProds();
 
+
+
+
+
+
+
+//Agregar al carro
+
 function agregarAlCarrito(productoComprado){
     carrito.push(productoComprado);
     console.table(carrito);
-    //alert("Producto: "+productoComprado.nombre+"  al carrito!");
+
+    
     //sweetalert
     Swal.fire({
         title: productoComprado.nombre,
@@ -77,6 +96,7 @@ function agregarAlCarrito(productoComprado){
             <td>${productoComprado.id}</td>
             <td>${productoComprado.nombre}</td>
             <td>${productoComprado.precio}</td>
+            <td><button onClick = "eliminarDelCarrito(${productoComprado.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
         </tr>
     `;
     totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
@@ -91,7 +111,7 @@ botonFinalizar.onclick = () => {
     carrito = [];
     document.getElementById("tablabody").innerHTML="";
     let infoTotal = document.getElementById("total");
-    infoTotal.innerText="Total a pagar $: ";
+    infoTotal.innerText="Total $: ";
 
 Toastify({
     text: "Pronto recibirás un mail de confirmacion de tu compra",
@@ -99,7 +119,8 @@ Toastify({
     gravity: 'bottom',
     position: 'left',
     style: {
-        background: 'linear-gradient(to right, #00b09b, #96c92d)'
+        
+        background: 'linear-gradient(to left, #283747, #D6DBDF)'
     }
 }).showToast();
 
@@ -114,3 +135,40 @@ Toastify({
     
 }
 
+
+
+
+//NUEVO
+
+
+  
+  
+  function actualizarCarrito(productoComprado){
+    carrito.push(productoComprado);
+    console.table(carrito);
+
+    
+    document.getElementById("tablabody").innerHTML += `
+        <tr>
+            <td>${productoComprado.id}</td>
+            <td>${productoComprado.nombre}</td>
+            <td>${productoComprado.precio}</td>
+            <td><button onClick = "eliminarDelCarrito(${productoComprado.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
+        </tr>
+    `;
+    totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
+    let infoTotal = document.getElementById("total");
+    infoTotal.innerText="Total a pagar $: "+totalCarrito
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+
+  }
+//Agrego una función que elimine el producto del carrito:
+
+const eliminarDelCarrito = (id) => {
+    const producto = carrito.find((productoComprado) => producto.id === id);
+    carrito.splice(carrito.indexOf(producto), 1);
+    actualizarCarrito();
+  };
+
+  

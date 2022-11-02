@@ -1,3 +1,5 @@
+//Array de productos
+
 const productos = [{
     id: 1,
     foto: "./img/canastopalma.jpg",
