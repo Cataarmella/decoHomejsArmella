@@ -1,12 +1,13 @@
 
-//const carrito = [];
 
-//localStorage.clear();
 let totalCarrito;
 let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let tablaBody = document.getElementById ("tablabody");
+
+//Carrito de compras:
+
+const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 
 //Renderizacion de Productos:
@@ -26,12 +27,8 @@ function renderizarProds(){
             </div>
         `;
     }
-
- 
-
-    //EVENTOS
-    productos.forEach(producto => {
-        
+    //Evento boton comprar 
+    productos.forEach(producto => {        
         document.getElementById(`btn${producto.id}`).addEventListener("click",function(){
             agregarAlCarrito(producto);
         });
@@ -56,9 +53,7 @@ function agregarAlCarrito(productoComprado){
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: productoComprado.nombre,
-        backdrop: `
-    rgba(0,0,123,0.4)
-    `,
+        backdrop: `rgba(0,0,123,0.4)`,
         showConfirmButton: false,
         timer: 1500
       })
@@ -114,16 +109,17 @@ Toastify({
     console.table(carrito);
         let aux = '';
         carrito.forEach((producto) => {
-            aux += `
-                <div class="card col-xl-3 col md-6 col-sm-12">
-                    <div class="card-body">
-                         <h3 class="card-title"> ${producto.nombre} </h3>
-                         <p class="card-text"> ${producto.precio} </p>
-                         <button onClick = "eliminarDelCarrito(${producto.id})" class="btn btn-primary"> Eliminar del Carrito </button>
-                    </div>
-                </div>           
-            
-            ` ;
+            aux = aux + 
+            `
+            <tr>
+            <td>${producto.id}</td>
+            <td>${producto.nombre}</td>
+            <td>${producto.precio}</td>
+            <td><button onClick = "eliminarDelCarrito(${producto.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
+        </tr>
+
+
+            `;
         })
         tablaBody.innerHTML = aux;
         
