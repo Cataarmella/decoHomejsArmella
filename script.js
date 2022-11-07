@@ -1,5 +1,5 @@
 
-
+let productosJSON=[];
 let totalCarrito;
 let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
@@ -12,8 +12,8 @@ const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 //Renderizacion de Productos:
 
-function renderizarProds(){
-    for(const producto of productos){
+function renderizarProductos(){
+    for(const producto of productosJSON){
         contenedor.innerHTML += `
             <div class="card col-md-2">
                 <img src=${producto.foto} class="card-img-top" alt="...">
@@ -27,24 +27,20 @@ function renderizarProds(){
             </div>
         `;
     }
+
     //Evento boton comprar 
-    productos.forEach(producto => {        
+    productosJSON.forEach(producto => {        
         document.getElementById(`btn${producto.id}`).addEventListener("click",function(){
             agregarAlCarrito(producto);
         });
     })
 }
 
-renderizarProds();
-
-
-//Agregar al carro:
+//Agregar producto al carrito:
 
 function agregarAlCarrito(productoComprado){
     carrito.push(productoComprado);
-    console.table(carrito);
-
-    
+       
     //sweetalert
     Swal.fire({
         title: productoComprado.nombre,
@@ -57,51 +53,53 @@ function agregarAlCarrito(productoComprado){
         showConfirmButton: false,
         timer: 1500
       })
-      
-    document.getElementById("tablabody").innerHTML += `
-        <tr>
-            <td>${productoComprado.id}</td>
-            <td>${productoComprado.nombre}</td>
-            <td>${productoComprado.precio}</td>
-            <td><button onClick = "eliminarDelCarrito(${productoComprado.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
-        </tr>
-    `;
+      actualizarCarrito();
+      setItemStorage();
+    }
+
+    function calcularTotalCarrito(){
     totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
     let infoTotal = document.getElementById("total");
     infoTotal.innerText="Total a pagar $: "+totalCarrito;
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
 
 botonFinalizar.onclick = () => {
-    carrito = [];
+    /*
+    if(carrito.length==0){
+        Swal.fire({
+            title: 'El carro está vacío',
+            text: 'compre algun producto',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500
+          })
+    }else{
+        */
+    carrito.splice(0, carrito.length);
+    console.log(carrito);
     document.getElementById("tablabody").innerHTML="";
     let infoTotal = document.getElementById("total");
     infoTotal.innerText="Total $: ";
 
+    notificarCompraExitosa();
 
+    localStorage.removeItem('carrito');
+}
+
+function notificarCompraExitosa(){
     //Toastify
-
 Toastify({
     text: "Pronto recibirás un mail de confirmacion de tu compra",
     duration: 3000,
     gravity: 'bottom',
     position: 'left',
-    style: {
-        
+    style: {        
         background: 'linear-gradient(to left, #283747, #D6DBDF)'
     }
 }).showToast();
 
-
-
-    
-    localStorage.removeItem("carrito");
-    
 }
-
-
   
   //agrego una funcion para actualizar el carrito:
 
@@ -115,7 +113,7 @@ Toastify({
             <td>${producto.id}</td>
             <td>${producto.nombre}</td>
             <td>${producto.precio}</td>
-            <td><button onClick = "eliminarDelCarrito(${producto.id})" class="btn btn-primary"> Eliminar del Carrito </button></td>
+            <td><button onClick = "eliminarDelCarrito(${producto.id})" class="btn btn-primary">🗑</button></td>
         </tr>
 
 
@@ -123,12 +121,7 @@ Toastify({
         })
         tablaBody.innerHTML = aux;
         
-        totalCarrito = carrito.reduce((acumulador,producto)=> acumulador + producto.precio,0);
-        let infoTotal = document.getElementById("total");
-        infoTotal.innerText="Total a pagar $: "+totalCarrito;
-    
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-
+        calcularTotalCarrito();
         }
     
     
@@ -140,5 +133,9 @@ const eliminarDelCarrito = (id) => {
     carrito.splice(carrito.indexOf(producto), 1);
     actualizarCarrito();
   };
+
+  renderizarProductos();
+  actualizarCarrito();
+
 
  
