@@ -6,6 +6,8 @@ let contenedor = document.getElementById("misprods");
 let botonFinalizar = document.getElementById("finalizar");
 let tablaBody = document.getElementById ("tablabody");
 
+const lista = document.querySelector('#listado')
+
 //Carrito de compras:
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -148,7 +150,7 @@ const eliminarDelCarrito = (id) => {
     actualizarCarrito();
   };
 
-
+/*
 //Obtener valor dolar
 function obtenerDolar(){
     const URLDOLAR="https://api.bluelytics.com.ar/v2/latest";
@@ -175,7 +177,7 @@ async function obtenerJSON() {
     renderizarProductos();
 }
 
-
+*/
 
 
 
@@ -198,10 +200,59 @@ function obtenerDatosJSON(){
 
 */
 
+/*
+function obtenerDatosJSON(){
+    const URLJSON="/productos.json";
+    fetch(URLJSON)
+        .then(respuesta => respuesta.json())
+        .then(productos =>{
+            productos.forEach(productos =>
+                {renderizarProductos(productos) {
+                    for(const producto of productosJSON){
+                        contenedor.innerHTML += `
+                            <div class="card col-md-2">
+                                <img src=${producto.foto} class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">${producto.id}</h5>
+                                    <p class="card-text">${producto.nombre}</p>
+                                    <p class="card-text">$ ${producto.precio}</p>
+                                    <button id="btn${producto.id}" class="btn btn-primary">Comprar</button>
+                                    
+                                </div>
+                            </div>
+                        `;
+                    }
+                 }
+                }
+            )
+        }
+,
+
+obtenerDatosJSON();
+*/
 
 
-//obtenerDatosJSON();
+fetch('/productos.json')
+    .then( (res) => res.json())
+    .then( (prod) => {
 
+        prod.forEach((producto) => {
+            const li = document.createElement('li')
+            li.innerHTML = `
+            <div class="card col-md-2">
+                <img src=${producto.foto} class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${producto.id}</h5>
+                    <p class="card-text">${producto.nombre}</p>
+                    <p class="card-text">$ ${producto.precio}</p>
+                    <button id="btn${producto.id}" class="btn btn-primary">Comprar</button>
+                    
+                </div>
+            </div>
+        `
+            lista.append(li)
+        })
+    })
 
 
 
