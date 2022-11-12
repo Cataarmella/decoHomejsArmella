@@ -14,7 +14,7 @@ const saveLocal = () => {
 // Renderizacion de Productos 
 function renderizarProductos() {
   fetch('/productos.json')
-    .then((res) => res.json())
+    .then((respuesta) => respuesta.json())
     .then((productos) => {
       let html = "";
       for (let i = 0; i < productos.length; i++) {
@@ -62,19 +62,20 @@ function renderizacionCarrito() {
 //agregar al carrito
 function addToCart(id) {
   fetch('/productos.json')
-    .then((res) => res.json())
+    .then((respuesta) => respuesta.json())
     .then((productos) => {
       const agregarAlCarrito = productos.find((item) => item.id == id);
       carrito.push(agregarAlCarrito);
+
       //sweetalert
-      
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Su producto se ha agregado correctamente al carrito',
-  showConfirmButton: false,
-  timer: 1500
-})
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Su producto se ha agregado correctamente al carrito',
+        showConfirmButton: false,
+        timer: 1500
+      })
 
       renderizacionCarrito();
       saveLocal();
@@ -107,7 +108,7 @@ function calcularPrecioTotal() {
 
 
 
-
+//evento del boton finalizar compra
 
 botonFinalizar.onclick = () => {
 
@@ -132,6 +133,9 @@ botonFinalizar.onclick = () => {
     localStorage.removeItem('carrito');
   }
 }
+
+
+//compra exitosa
 
 function notificarCompraExitosa() {
   //Toastify
