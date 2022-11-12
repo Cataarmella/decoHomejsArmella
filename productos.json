@@ -34,5 +34,52 @@
     "nombre": "Vela Rainbow",
     "precio": 2100
     
+},
+{
+    "id": 7,
+    "foto":"./img/cuadro.jpg", 
+    "nombre": "Cuadro decorativo",
+    "precio": 12100
+    
+},
+{
+    "id": 8,
+    "foto":"./img/espejotrini.jpg", 
+    "nombre": "Espejo Trini",
+    "precio": 32190
+    
+},
+{
+    "id": 9 ,
+    "foto":"./img/espejonatal.jpg", 
+    "nombre": "Espejo Natal",
+    "precio": 20520
+    
+},
+{
+    "id": 10,
+    "foto":"./img/tapiz.jpg", 
+    "nombre": "Tapiz rustico",
+    "precio": 21100
+    
+},
+{
+    "id": 11,
+    "foto":"./img/packvelas.jpg", 
+    "nombre": "Pack de velas",
+    "precio": 5200
+    
+},
+{
+    "id": 12,
+    "foto":"./img/velapera.jpg", 
+    "nombre": "Vela Pera",
+    "precio": 1900
 }
+
+
+
+
+
+
 ]
