@@ -31,7 +31,7 @@ function renderizarProductos() {
      
                             </div>
                           </div>
-    `;
+           `;
       }
       document.getElementById('misprods').innerHTML = html;
     })
@@ -114,8 +114,8 @@ botonFinalizar.onclick = () => {
 
   if (carrito.length == 0) {
     Swal.fire({
-      title: 'El carro está vacío',
-      text: 'compre algun producto',
+      title: 'El carrito está vacío',
+      text: 'Seleccione algun producto',
       icon: 'error',
       showConfirmButton: false,
       timer: 1500
@@ -135,7 +135,7 @@ botonFinalizar.onclick = () => {
 }
 
 
-//compra exitosa
+//Funcion para confirmacion de compra
 
 function notificarCompraExitosa() {
   //Toastify
